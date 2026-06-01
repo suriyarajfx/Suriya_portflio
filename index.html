@@ -31,11 +31,44 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font-weight:300;min-height:100vh;padding:20px;cursor:none}
-/* Hide YouTube watermark */
-.ytp-watermark{display:none !important;}
+/* Hide YouTube watermark, uploader info, and controls with premium overlays */
+.sr-wrap::before, .wv-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #141414;
+  z-index: 5;
+  pointer-events: none;
+  animation: fadeOutCover 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: 1.2s;
+}
 
-/* Overlay to hide YouTube channel logo/info panel (iframe is cross-origin, CSS can't reach inside) */
-.sr-wrap::after,.wv-wrap::after{content:'';position:absolute;top:0;left:0;right:0;height:90px;background:linear-gradient(to bottom,rgba(0,0,0,0.85) 0%,transparent 100%);z-index:3;pointer-events:none}
+@keyframes fadeOutCover {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.sr-wrap::after, .wv-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, 
+    #141414 0%, 
+    #141414 50px, 
+    transparent 50px, 
+    transparent calc(100% - 50px), 
+    #141414 calc(100% - 50px), 
+    #141414 100%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+.work-card-reel .wv-wrap::after {
+  background: none !important;
+}
 
 /* CURSOR */
 .cursor{width:8px;height:8px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s}
@@ -146,7 +179,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .card-showreel{padding:0}
 .sr-label{position:absolute;top:16px;left:20px;z-index:4;font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.85);background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,0.1)}
 .sr-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
-.sr-wrap iframe{position:absolute;top:-12%;left:-12%;width:124%;height:124%;border:none;display:block;pointer-events:none}
+.sr-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;pointer-events:none}
 
 /* STATS */
 .card-stats{padding:28px;display:grid;grid-template-columns:1fr 4px 1fr 4px 1fr;align-items:center;gap:8px}
@@ -159,7 +192,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 /* WORK VIDEO */
 .card-motion,.card-edit1,.card-edit2{padding:0}
 .wv-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
-.wv-wrap iframe{position:absolute;top:-12%;left:-12%;width:124%;height:124%;border:none;display:block;pointer-events:none}
+.wv-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;pointer-events:none}
 .wk-label{position:absolute;bottom:14px;left:16px;z-index:2;font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,0.1)}
 
 /* LOGO */
