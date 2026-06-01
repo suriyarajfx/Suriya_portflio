@@ -145,8 +145,8 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 /* SHOWREEL */
 .card-showreel{padding:0}
 .sr-label{position:absolute;top:16px;left:20px;z-index:4;font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.85);background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,0.1)}
-.sr-wrap{position:absolute;inset:0;width:100%;height:100%}
-.sr-wrap iframe{width:100%;height:100%;border:none;display:block}
+.sr-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.sr-wrap iframe{position:absolute;top:-12%;left:-12%;width:124%;height:124%;border:none;display:block;pointer-events:none}
 
 /* STATS */
 .card-stats{padding:28px;display:grid;grid-template-columns:1fr 4px 1fr 4px 1fr;align-items:center;gap:8px}
@@ -158,8 +158,8 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 
 /* WORK VIDEO */
 .card-motion,.card-edit1,.card-edit2{padding:0}
-.wv-wrap{position:absolute;inset:0;width:100%;height:100%}
-.wv-wrap iframe{width:100%;height:100%;border:none;display:block}
+.wv-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.wv-wrap iframe{position:absolute;top:-12%;left:-12%;width:124%;height:124%;border:none;display:block;pointer-events:none}
 .wk-label{position:absolute;bottom:14px;left:16px;z-index:2;font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,0.1)}
 
 /* LOGO */
@@ -228,7 +228,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .work-card{padding:0;overflow:hidden;position:relative}
 .work-card iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block}
 .work-card-reel .wv-wrap{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
-.work-card-reel .wv-wrap iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;border:none}
+.work-card-reel .wv-wrap iframe{position:absolute;top:50% !important;left:50% !important;transform:translate(-50%,-50%) scale(1.35) !important;width:100% !important;height:100% !important;border:none}
 
 /* Thumbnail card */
 .work-card-thumb{text-decoration:none;color:var(--white);display:block}
