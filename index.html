@@ -24,7 +24,8 @@
 :root{
   --bg:#0c0c0c;--card:#141414;--border:rgba(255,255,255,0.08);
   --white:#f0ede8;--dim:rgba(240,237,232,0.45);
-  --green:#10b981;--green-dim:rgba(16,185,129,0.12);--green-glow:rgba(16,185,129,0.35);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,0.12);--blue-glow:rgba(59,130,246,0.35);
+  --green:var(--blue);--green-dim:var(--blue-dim);--green-glow:var(--blue-glow);
   --radius:20px;--gap:14px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -38,7 +39,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 
 /* CURSOR */
 .cursor{width:8px;height:8px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s}
-.cursor-ring{width:32px;height:32px;border:1px solid rgba(16,185,129,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(59,130,246,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
 .cursor.big{width:14px;height:14px}.cursor-ring.big{width:48px;height:48px}
 
 /* WRAPPER */
@@ -47,13 +48,13 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 /* CARD BASE */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;opacity:0;transform:translateY(20px) scale(0.99);transition:opacity .6s ease,transform .6s ease,border-color .3s,box-shadow .3s}
 .card.visible{opacity:1;transform:translateY(0) scale(1)}
-.card.visible:hover{border-color:rgba(16,185,129,0.3);transform:translateY(-3px) scale(1);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.card.visible:hover{border-color:rgba(59,130,246,0.3);transform:translateY(-3px) scale(1);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
 
 /* SECTION LABEL */
 .sec-label{display:flex;align-items:center;gap:14px;padding:4px;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
 .sec-label.visible{opacity:1;transform:none}
 .sec-label h2{font-family:'Geist',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em}
-.sec-label span{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.15em;background:var(--green-dim);border:1px solid rgba(16,185,129,0.3);padding:4px 10px;border-radius:100px}
+.sec-label span{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.15em;background:var(--green-dim);border:1px solid rgba(59,130,246,0.3);padding:4px 10px;border-radius:100px}
 
 /* =====================
    TOP GRID — fixed rows
@@ -96,8 +97,8 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 ======================== */
 
 /* NAME */
-.card-name{background:linear-gradient(135deg,#0d3522 0%,#111 60%);padding:36px;display:flex;flex-direction:column;justify-content:flex-end}
-.card-name::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.18) 0%,transparent 70%);pointer-events:none}
+.card-name{background:linear-gradient(135deg,#0a2240 0%,#111 60%);padding:36px;display:flex;flex-direction:column;justify-content:flex-end}
+.card-name::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 70%);pointer-events:none}
 .name-tag{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--green);margin-bottom:12px}
 .name-main{font-family:'Geist',sans-serif;font-weight:800;font-size:clamp(36px,4.5vw,58px);line-height:.95;letter-spacing:-0.03em}
 .name-main .b{color:var(--green)}
@@ -115,11 +116,11 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .loc-text strong{color:var(--white);font-weight:500;display:block;font-size:14px}
 
 /* AVAILABLE */
-.card-available{padding:20px 24px;display:flex;align-items:center;gap:12px;background:rgba(167,243,208,0.1);border-color:rgba(167,243,208,0.25)}
-.avail-dot{width:10px;height:10px;border-radius:50%;background:#a7f3d0;box-shadow:0 0 8px rgba(167,243,208,0.6);animation:pulse 2s ease infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(167,243,208,0.6)}50%{box-shadow:0 0 16px rgba(167,243,208,1)}}
-.avail-text{font-size:13px;color:#a7f3d0;line-height:1.4}
-.avail-text strong{color:#a7f3d0;font-weight:600;display:block}
+.card-available{padding:20px 24px;display:flex;align-items:center;gap:12px;background:rgba(191,219,254,0.1);border-color:rgba(191,219,254,0.25)}
+.avail-dot{width:10px;height:10px;border-radius:50%;background:#bfdbfe;box-shadow:0 0 8px rgba(191,219,254,0.6);animation:pulse 2s ease infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(191,219,254,0.6)}50%{box-shadow:0 0 16px rgba(191,219,254,1)}}
+.avail-text{font-size:13px;color:#bfdbfe;line-height:1.4}
+.avail-text strong{color:#bfdbfe;font-weight:600;display:block}
 
 /* ABOUT */
 .card-about{padding:30px;display:flex;flex-direction:column;justify-content:center}
@@ -131,7 +132,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .card-tools{padding:24px;display:flex;flex-direction:column;justify-content:space-between}
 .tools-lbl{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);margin-bottom:12px}
 .tools-list{display:flex;flex-wrap:wrap;gap:7px;flex:1;align-content:flex-start}
-.tool-chip{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.06em;color:var(--green);border:1px solid rgba(16,185,129,0.3);background:var(--green-dim);padding:5px 10px;border-radius:100px}
+.tool-chip{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.06em;color:var(--green);border:1px solid rgba(59,130,246,0.3);background:var(--green-dim);padding:5px 10px;border-radius:100px}
 
 /* SOCIAL */
 .card-instagram,.card-x,.card-vimeo-lnk{padding:20px 24px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
@@ -186,8 +187,8 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .form-btn:hover{box-shadow:0 0 24px var(--green-glow);transform:translateY(-2px)}
 
 /* BOOK CALL */
-.card-call{background:linear-gradient(135deg,#0d3522,#111);padding:36px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px}
-.card-call::before{content:'';position:absolute;bottom:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.2) 0%,transparent 70%);pointer-events:none}
+.card-call{background:linear-gradient(135deg,#0a2240,#111);padding:36px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px}
+.card-call::before{content:'';position:absolute;bottom:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%);pointer-events:none}
 .call-eyebrow{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--green);margin-bottom:10px}
 .call-heading{font-family:'Geist',sans-serif;font-weight:800;font-size:clamp(28px,3vw,42px);line-height:1.05;letter-spacing:-0.02em}
 .call-heading span{color:var(--green)}
@@ -241,9 +242,9 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 .work-card-thumb:hover .thumb-cta{box-shadow:0 0 16px var(--green-glow)}
 
 /* Empty slot */
-.work-card-empty{border:2px dashed rgba(16,185,129,0.2);background:rgba(16,185,129,0.03);display:flex;align-items:center;justify-content:center}
+.work-card-empty{border:2px dashed rgba(59,130,246,0.2);background:rgba(59,130,246,0.03);display:flex;align-items:center;justify-content:center}
 .empty-slot{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
-.empty-icon{font-size:28px;color:rgba(16,185,129,0.3);line-height:1;border:1px dashed rgba(16,185,129,0.3);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.empty-icon{font-size:28px;color:rgba(59,130,246,0.3);line-height:1;border:1px dashed rgba(59,130,246,0.3);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .empty-text{font-family:'Geist Pixel Circle','Geist Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--dim);line-height:1.5}
 .empty-text small{font-size:10px;color:rgba(240,237,232,0.25)}
 
@@ -538,7 +539,7 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.card,.sec-label').forEach(c=>obs.observe(c));
 
 function handleSubmit(btn){
-  btn.textContent='MESSAGE SENT ✓';btn.style.background='#5aaee8';btn.style.boxShadow='0 0 24px rgba(167,243,208,0.4)';
+  btn.textContent='MESSAGE SENT ✓';btn.style.background='#5aaee8';btn.style.boxShadow='0 0 24px rgba(59,130,246,0.4)';
   setTimeout(()=>{btn.textContent='SEND MESSAGE →';btn.style.background='var(--green)';btn.style.boxShadow=''},3000);
 }
 </script>
