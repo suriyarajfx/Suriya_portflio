@@ -31,26 +31,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font-weight:300;min-height:100vh;padding:20px;cursor:none}
-/* Hide YouTube watermark, uploader info, and controls with premium overlays */
-.sr-wrap::after, .youtube-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, 
-    #141414 0%, 
-    #141414 50px, 
-    transparent 50px, 
-    transparent calc(100% - 50px), 
-    #141414 calc(100% - 50px), 
-    #141414 100%
-  );
-  z-index: 3;
-  pointer-events: none;
-}
-
-.work-card-reel .youtube-wrap::after {
-  background: none !important;
-}
+/* Video elements rendered in full without any crop overlays */
 
 /* CURSOR */
 .cursor{width:8px;height:8px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s}
