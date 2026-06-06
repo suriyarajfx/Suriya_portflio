@@ -283,26 +283,199 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
   height: 100%;
   overflow: hidden;
 }
-.yt-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 60px;
-  background-color: #000;
-  z-index: 1;
-  pointer-events: none;
+.yt-container:fullscreen {
+  cursor: default;
 }
-@media (max-width: 768px) {
-  .yt-overlay {
-    width: 150px;
-    height: 45px;
-  }
+.yt-container:-webkit-full-screen {
+  cursor: default;
+}
+.yt-click-intercept {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: transparent;
+  cursor: pointer;
+}
+.yt-pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.yt-pause-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pause-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--green-glow);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pause-play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 32px var(--green-glow);
+}
+.pause-play-btn svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+}
+.custom-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: rgba(12, 12, 12, 0.85);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+}
+.yt-container:hover .custom-controls,
+.custom-controls.show-always {
+  opacity: 1;
+  transform: translateY(0);
+}
+.controls-left, .controls-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.1s ease;
+}
+.ctrl-btn:hover {
+  color: var(--green);
+  background: rgba(255, 255, 255, 0.05);
+  transform: scale(1.05);
+}
+.ctrl-btn:active {
+  transform: scale(0.95);
+}
+.ctrl-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.progress-container {
+  flex: 1;
+  margin: 0 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+.progress-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+.seek-slider {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+.time-display {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  min-width: 80px;
+  text-align: center;
+}
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.volume-slider {
+  width: 60px;
+  height: 4px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+}
+.volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+}
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  margin-top: -3px;
+}
+.volume-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  border: none;
 }
 @media (max-width: 480px) {
-  .yt-overlay {
-    width: 120px;
-    height: 35px;
+  .custom-controls {
+    padding: 0 8px;
+    height: 40px;
+  }
+  .volume-slider {
+    display: none;
+  }
+  .progress-container {
+    margin: 0 8px;
+  }
+  .time-display {
+    font-size: 10px;
+    min-width: 60px;
   }
 }
 </style>
@@ -358,13 +531,51 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
       <span class="sr-label">[ MOTION GRAPHIC WORK ]</span>
       <div class="sr-wrap">
         <div class="yt-container">
-          <iframe 
-            src="https://www.youtube-nocookie.com/embed/KGh7h_AyAK8?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=KGh7h_AyAK8" 
+          <iframe id="yt-player-showreel"
+            src="https://www.youtube-nocookie.com/embed/KGh7h_AyAK8?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=KGh7h_AyAK8&enablejsapi=1&iv_load_policy=3&disablekb=1" 
             allow="autoplay; encrypted-media; picture-in-picture" 
             style="pointer-events: none;"
             allowfullscreen>
           </iframe>
-          <div class="yt-overlay"></div>
+          <div class="yt-click-intercept"></div>
+          <div class="yt-pause-overlay">
+            <div class="pause-play-btn">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            </div>
+          </div>
+          <div class="custom-controls">
+            <div class="controls-left">
+              <button class="ctrl-btn btn-prev" title="Previous">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" fill="currentColor"/></svg>
+              </button>
+              <button class="ctrl-btn btn-play-pause" title="Play">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/></svg>
+              </button>
+              <button class="ctrl-btn btn-next" title="Next">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12v12h2V6z" fill="currentColor"/></svg>
+              </button>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+              </div>
+              <input type="range" class="seek-slider" min="0" max="100" value="0">
+            </div>
+            <div class="time-display">0:00 / 0:00</div>
+            <div class="controls-right">
+              <div class="volume-container">
+                <button class="ctrl-btn btn-volume" title="Mute/Unmute">
+                  <svg class="icon-volume-up" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+                  <svg class="icon-volume-mute" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/></svg>
+                </button>
+                <input type="range" class="volume-slider" min="0" max="100" value="100">
+              </div>
+              <button class="ctrl-btn btn-fullscreen" title="Fullscreen">
+                <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -404,17 +615,53 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
     </div>
     <div class="works-row works-row-full">
       <div class="card work-card work-card-wide">
-        <div class="wv-wrap youtube-wrap">
-          <div class="yt-container">
-            <iframe 
-              src="https://www.youtube-nocookie.com/embed/KGh7h_AyAK8?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=KGh7h_AyAK8" 
+        <div class="yt-container">
+            <iframe id="yt-player-motion"
+              src="https://www.youtube-nocookie.com/embed/KGh7h_AyAK8?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=KGh7h_AyAK8&enablejsapi=1&iv_load_policy=3&disablekb=1" 
               allow="autoplay; encrypted-media; picture-in-picture" 
               style="pointer-events: none;"
               allowfullscreen>
             </iframe>
-            <div class="yt-overlay"></div>
+            <div class="yt-click-intercept"></div>
+            <div class="yt-pause-overlay">
+              <div class="pause-play-btn">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </div>
+            </div>
+            <div class="custom-controls">
+              <div class="controls-left">
+                <button class="ctrl-btn btn-prev" title="Previous">
+                  <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" fill="currentColor"/></svg>
+                </button>
+                <button class="ctrl-btn btn-play-pause" title="Play">
+                  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/></svg>
+                </button>
+                <button class="ctrl-btn btn-next" title="Next">
+                  <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12v12h2V6z" fill="currentColor"/></svg>
+                </button>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill"></div>
+                </div>
+                <input type="range" class="seek-slider" min="0" max="100" value="0">
+              </div>
+              <div class="time-display">0:00 / 0:00</div>
+              <div class="controls-right">
+                <div class="volume-container">
+                  <button class="ctrl-btn btn-volume" title="Mute/Unmute">
+                    <svg class="icon-volume-up" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+                    <svg class="icon-volume-mute" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/></svg>
+                  </button>
+                  <input type="range" class="volume-slider" min="0" max="100" value="100">
+                </div>
+                <button class="ctrl-btn btn-fullscreen" title="Fullscreen">
+                  <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
         <span class="wk-label">CLYORO · MOTION GRAPHIC</span>
       </div>
     </div>
@@ -435,17 +682,53 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
     </div>
     <div class="works-row works-row-reels">
       <div class="card work-card work-card-reel">
-        <div class="wv-wrap youtube-wrap">
-          <div class="yt-container">
-            <iframe 
-              src="https://www.youtube-nocookie.com/embed/qRI3oK7Jrsc?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=qRI3oK7Jrsc" 
+        <div class="yt-container">
+            <iframe id="yt-player-reel"
+              src="https://www.youtube-nocookie.com/embed/qRI3oK7Jrsc?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&mute=1&vq=hd1080&loop=1&playlist=qRI3oK7Jrsc&enablejsapi=1&iv_load_policy=3&disablekb=1" 
               allow="autoplay; encrypted-media; picture-in-picture" 
               style="pointer-events: none;"
               allowfullscreen>
             </iframe>
-            <div class="yt-overlay"></div>
+            <div class="yt-click-intercept"></div>
+            <div class="yt-pause-overlay">
+              <div class="pause-play-btn">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </div>
+            </div>
+            <div class="custom-controls">
+              <div class="controls-left">
+                <button class="ctrl-btn btn-prev" title="Previous">
+                  <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" fill="currentColor"/></svg>
+                </button>
+                <button class="ctrl-btn btn-play-pause" title="Play">
+                  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/></svg>
+                </button>
+                <button class="ctrl-btn btn-next" title="Next">
+                  <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12v12h2V6z" fill="currentColor"/></svg>
+                </button>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill"></div>
+                </div>
+                <input type="range" class="seek-slider" min="0" max="100" value="0">
+              </div>
+              <div class="time-display">0:00 / 0:00</div>
+              <div class="controls-right">
+                <div class="volume-container">
+                  <button class="ctrl-btn btn-volume" title="Mute/Unmute">
+                    <svg class="icon-volume-up" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+                    <svg class="icon-volume-mute" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/></svg>
+                  </button>
+                  <input type="range" class="volume-slider" min="0" max="100" value="100">
+                </div>
+                <button class="ctrl-btn btn-fullscreen" title="Fullscreen">
+                  <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
         <span class="wk-label">VIDEO EDIT · 01</span>
       </div>
       <div class="card work-card work-card-reel">
@@ -577,6 +860,7 @@ body{background:var(--bg);color:var(--white);font-family:'Geist',sans-serif;font
 
 </div><!-- end bento-wrap -->
 
+<script src="https://www.youtube.com/iframe_api" defer></script>
 <script>
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -587,7 +871,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
   ring.style.left=rx+'px';ring.style.top=ry+'px';
   requestAnimationFrame(animCursor);
 })();
-document.querySelectorAll('a,button,video').forEach(el=>{
+document.querySelectorAll('a,button,video,.ctrl-btn,.seek-slider,.volume-slider,.yt-click-intercept,.pause-play-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big')});
 });
@@ -601,6 +885,218 @@ document.querySelectorAll('video').forEach(video => {
     }
   });
 });
+
+// Custom YouTube Player Controller
+const youtubePlaylist = ["KGh7h_AyAK8", "qRI3oK7Jrsc"];
+const ytPlayers = {};
+
+window.onYouTubeIframeAPIReady = function() {
+  document.querySelectorAll('.yt-container').forEach((container, idx) => {
+    const iframe = container.querySelector('iframe');
+    if (!iframe) return;
+    
+    if (!iframe.id) {
+      iframe.id = `yt-player-gen-${idx}`;
+    }
+    
+    let currentVideoId = "";
+    try {
+      const srcUrl = new URL(iframe.src);
+      const parts = srcUrl.pathname.split('/');
+      currentVideoId = parts[parts.length - 1];
+    } catch(e) {
+      console.error("Error parsing iframe src", e);
+    }
+    
+    const clickIntercept = container.querySelector('.yt-click-intercept');
+    const pauseOverlay = container.querySelector('.yt-pause-overlay');
+    const pausePlayBtn = container.querySelector('.pause-play-btn');
+    const controls = container.querySelector('.custom-controls');
+    
+    const btnPlayPause = container.querySelector('.btn-play-pause');
+    const iconPlay = container.querySelector('.icon-play');
+    const iconPause = container.querySelector('.icon-pause');
+    const btnPrev = container.querySelector('.btn-prev');
+    const btnNext = container.querySelector('.btn-next');
+    
+    const seekSlider = container.querySelector('.seek-slider');
+    const progressFill = container.querySelector('.progress-bar-fill');
+    const timeDisplay = container.querySelector('.time-display');
+    
+    const btnVolume = container.querySelector('.btn-volume');
+    const iconVolUp = container.querySelector('.icon-volume-up');
+    const iconVolMute = container.querySelector('.icon-volume-mute');
+    const volumeSlider = container.querySelector('.volume-slider');
+    const btnFullscreen = container.querySelector('.btn-fullscreen');
+    
+    let player;
+    let pollInterval = null;
+    
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+    
+    function updateProgress() {
+      if (!player || !player.getCurrentTime) return;
+      const curTime = player.getCurrentTime();
+      const duration = player.getDuration();
+      if (duration > 0) {
+        const pct = (curTime / duration) * 100;
+        seekSlider.value = pct;
+        progressFill.style.width = `${pct}%`;
+        timeDisplay.textContent = `${formatTime(curTime)} / ${formatTime(duration)}`;
+      }
+    }
+    
+    function setPlayingState(isPlaying) {
+      if (isPlaying) {
+        iconPlay.style.display = 'none';
+        iconPause.style.display = 'block';
+        pauseOverlay.classList.remove('active');
+        controls.classList.remove('show-always');
+        if (!pollInterval) {
+          pollInterval = setInterval(updateProgress, 250);
+        }
+      } else {
+        iconPlay.style.display = 'block';
+        iconPause.style.display = 'none';
+        pauseOverlay.classList.add('active');
+        controls.classList.add('show-always');
+        if (pollInterval) {
+          clearInterval(pollInterval);
+          pollInterval = null;
+        }
+      }
+    }
+    
+    player = new YT.Player(iframe.id, {
+      events: {
+        onReady: (event) => {
+          if (player.getVolume) {
+            const vol = player.getVolume();
+            volumeSlider.value = vol;
+            if (player.isMuted()) {
+              iconVolUp.style.display = 'none';
+              iconVolMute.style.display = 'block';
+              volumeSlider.value = 0;
+            }
+          }
+          updateProgress();
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            setPlayingState(true);
+          } else {
+            setPlayingState(false);
+          }
+          if (event.data === YT.PlayerState.ENDED) {
+            player.playVideo();
+          }
+        }
+      }
+    });
+    
+    ytPlayers[iframe.id] = player;
+    
+    function togglePlay() {
+      if (!player || !player.getPlayerState) return;
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
+    }
+    
+    btnPlayPause.addEventListener('click', togglePlay);
+    clickIntercept.addEventListener('click', togglePlay);
+    pausePlayBtn.addEventListener('click', togglePlay);
+    
+    function changeVideo(direction) {
+      if (!youtubePlaylist.includes(currentVideoId)) return;
+      let idx = youtubePlaylist.indexOf(currentVideoId);
+      if (direction === 'next') {
+        idx = (idx + 1) % youtubePlaylist.length;
+      } else {
+        idx = (idx - 1 + youtubePlaylist.length) % youtubePlaylist.length;
+      }
+      const newId = youtubePlaylist[idx];
+      currentVideoId = newId;
+      
+      player.loadVideoById({
+        videoId: newId,
+        startSeconds: 0
+      });
+    }
+    
+    btnPrev.addEventListener('click', () => changeVideo('prev'));
+    btnNext.addEventListener('click', () => changeVideo('next'));
+    
+    seekSlider.addEventListener('input', () => {
+      if (!player || !player.getDuration) return;
+      const duration = player.getDuration();
+      const newTime = (seekSlider.value / 100) * duration;
+      progressFill.style.width = `${seekSlider.value}%`;
+      timeDisplay.textContent = `${formatTime(newTime)} / ${formatTime(duration)}`;
+    });
+    
+    seekSlider.addEventListener('change', () => {
+      if (!player || !player.getDuration) return;
+      const duration = player.getDuration();
+      const newTime = (seekSlider.value / 100) * duration;
+      player.seekTo(newTime, true);
+    });
+    
+    volumeSlider.addEventListener('input', () => {
+      if (!player || !player.setVolume) return;
+      const vol = volumeSlider.value;
+      player.setVolume(vol);
+      if (vol == 0) {
+        player.mute();
+        iconVolUp.style.display = 'none';
+        iconVolMute.style.display = 'block';
+      } else {
+        player.unMute();
+        iconVolUp.style.display = 'block';
+        iconVolMute.style.display = 'none';
+      }
+    });
+    
+    btnVolume.addEventListener('click', () => {
+      if (!player || !player.isMuted) return;
+      if (player.isMuted()) {
+        player.unMute();
+        const vol = player.getVolume() || 100;
+        volumeSlider.value = vol;
+        iconVolUp.style.display = 'block';
+        iconVolMute.style.display = 'none';
+      } else {
+        player.mute();
+        volumeSlider.value = 0;
+        iconVolUp.style.display = 'none';
+        iconVolMute.style.display = 'block';
+      }
+    });
+    
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    });
+  });
+};
 
 const obs=new IntersectionObserver(entries=>{
   entries.forEach((e,i)=>{
