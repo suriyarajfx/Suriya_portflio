@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #F4F3EF;
+  --ink: #121211;
+  --sheet: #1C1B18;
+  --sheet-ink: #F4F3EF;
+  --accent: #EF282D;
+  --accent-glow: rgba(239, 40, 45, 0.2);
+  --char-1: #24231F;
+  --char-2: #1C1B18;
+  --char-3: #131211;
+  --warm-grey: #79766D;
+  --muted: rgba(18, 18, 17, 0.62);
+  --nav-ink: rgba(18, 18, 17, 0.88);
+  --fine: rgba(18, 18, 17, 0.72);
+  --faint: rgba(18, 18, 17, 0.42);
+  --hair: rgba(18, 18, 17, 0.14);
+  --card-bg: rgba(18, 18, 17, 0.035);
+  --card-border: rgba(18, 18, 17, 0.12);
+  --veil: rgba(244, 243, 239, 0.88);
+  --hatch: rgba(18, 18, 17, 0.04);
+  --pill-bg: #121211;
+  --pill-text: #F4F3EF;
+  --pill-hover-bg: #EF282D;
+  --pill-hover-text: #FFFFFF;
+}
+
+[data-theme="dark"] {
+  --paper: #131211;
+  --ink: #F4F3EF;
+  --sheet: #F4F3EF;
+  --sheet-ink: #131211;
+  --accent: #EF282D;
+  --accent-glow: rgba(239, 40, 45, 0.25);
+  --warm-grey: #8E8A80;
+  --muted: rgba(244, 243, 239, 0.62);
+  --nav-ink: rgba(244, 243, 239, 0.88);
+  --fine: rgba(244, 243, 239, 0.75);
+  --faint: rgba(244, 243, 239, 0.42);
+  --hair: rgba(244, 243, 239, 0.16);
+  --card-bg: rgba(244, 243, 239, 0.045);
+  --card-border: rgba(244, 243, 239, 0.14);
+  --veil: rgba(19, 18, 17, 0.88);
+  --hatch: rgba(244, 243, 239, 0.045);
+  --pill-bg: #F4F3EF;
+  --pill-text: #131211;
+  --pill-hover-bg: #EF282D;
+  --pill-hover-text: #FFFFFF;
+}
+
+@theme {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-sheet: var(--sheet);
+  --color-sheet-ink: var(--sheet-ink);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-nav-ink: var(--nav-ink);
+  --color-fine: var(--fine);
+  --color-faint: var(--faint);
+  --color-hair: var(--hair);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-veil: var(--veil);
+  --color-pill-bg: var(--pill-bg);
+  --color-pill-text: var(--pill-text);
+  
+  --font-display: var(--font-display), "Inter Tight", sans-serif;
+  --font-serif: var(--font-serif), "Instrument Serif", Georgia, serif;
+  --font-mono: var(--font-mono), "Space Mono", ui-monospace, monospace;
+  --font-sans: var(--font-sans), "Inter", -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #FFFFFF;
+}
+
+/* Hairline border utilities */
+.hairline-b {
+  border-bottom: 1px solid var(--hair);
+}
+
+.hairline-t {
+  border-top: 1px solid var(--hair);
+}
+
+.hairline-r {
+  border-right: 1px solid var(--hair);
+}
+
+.hairline-l {
+  border-left: 1px solid var(--hair);
+}
+
+.hairline-all {
+  border: 1px solid var(--hair);
+}
+
+/* Ladybug Hatch pattern for empty/placeholder media slots */
+.slot-hatch {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 9px,
+    var(--hatch) 9px,
+    var(--hatch) 18px
+  );
+}
+
+/* Custom button pill with Ladybug hover invert */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--pill-bg);
+  color: var(--pill-text);
+  padding: 0.7rem 1.4rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill:hover {
+  background-color: var(--pill-hover-bg);
+  color: var(--pill-hover-text);
+  transform: translateY(-1px);
+}
+
+.btn-pill-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--ink);
+  padding: 0.7rem 1.4rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  border: 1px solid var(--hair);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill-ghost:hover {
+  background-color: var(--card-bg);
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-pill-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--accent);
+  color: #FFFFFF;
+  padding: 0.7rem 1.4rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill-accent:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 20px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+/* Ladybug Monospace Eyebrows / Kicks */
+.kick-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* Keyframe Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Pulsing Status Dot */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+  }
+}
+
+.pulse-dot {
+  animation: pulseGlow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
