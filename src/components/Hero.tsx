@@ -99,7 +99,7 @@ export const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Hero Showreel Video Embed Preview */}
+        {/* Hero Featured Best Work Video Embed Preview */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,8 +108,8 @@ export const Hero: React.FC = () => {
         >
           <VideoFrame
             youtubeId="KGh7h_AyAK8"
-            title="Suriya K — Motion & Video Editing Showreel"
-            caption="Reel · 16:9 · showreel loop"
+            title="Suriya K — One of the Best (CLYORO · Motion Graphic)"
+            caption="Featured · 16:9 · One of Best"
             aspectRatio="16:9"
             autoplay={true}
             priority={true}
